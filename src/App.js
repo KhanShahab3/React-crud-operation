@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Insert from "./Components/Insert";
+import { Delete } from "./Components/Delete";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import InsertData from "./Components/InsertData";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Insert />} />
+        <Route path="insert" element={<InsertData />} />
+        <Route path="delete" element={<Delete />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
