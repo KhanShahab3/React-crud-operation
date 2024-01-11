@@ -2,6 +2,7 @@ import React from "react";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+
 const Insert = () => {
   const navigate = useNavigate();
   // State to store the fetched data
@@ -96,6 +97,7 @@ const Insert = () => {
           ))}
         </tbody>
       </table>
+      {/* <StudentRegsitration /> */}
     </div>
   );
 };
