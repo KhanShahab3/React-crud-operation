@@ -1,64 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-function InsertData({ navigation }) {
-  const [formData, setFormData] = useState({
-    name: "",
-    fatherName: "",
-    email: "",
-    number: "",
-    nic: "",
-    dob: "",
-  });
+export const Edit = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
 
+  const [stdData, setStdData] = useState({});
+  useEffect(() => {
+    fetch(`http://localhost:1990/api/Student/${id}`)
+      .then((response) => response.json())
+      .then((data) => setStdData(data));
+  }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setStdData((preData) => ({
+      ...preData,
       [name]: value,
-    });
+    }));
   };
-
-  const handleSubmit = async (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await fetch("http://localhost:1990/Student", {
-        method: "POST",
-        mode: "cors",
+      const response = await fetch("http://localhost:1990/api/Student/${id}", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(stdData),
       });
-      setFormData({
-        name: "",
-        fatherName: "",
-        email: "",
-        number: "",
-        nic: "",
-        dob: "",
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+      if (!response) {
+        throw new Error(`failed to update the data ${response.status}`);
       }
-
-      console.log("Form data submitted successfully:", formData);
+      navigate("/");
     } catch (error) {
-      console.error("Error submitting form data:", error.message);
+      console.log("error occur du to" + error.message);
     }
   };
 
   return (
-    <div className="App">
-      <form onSubmit={handleSubmit}>
+    <div>
+      {" "}
+      <form>
         <label>
           Name:
           <input
             type="text"
             name="name"
-            value={formData.name}
             onChange={handleChange}
+            value={stdData.name}
           />
         </label>
 
@@ -67,8 +56,8 @@ function InsertData({ navigation }) {
           <input
             type="text"
             name="fatherName"
-            value={formData.fatherName}
             onChange={handleChange}
+            value={stdData.fatherName}
           />
         </label>
 
@@ -77,8 +66,8 @@ function InsertData({ navigation }) {
           <input
             type="text"
             name="email"
-            value={formData.email}
             onChange={handleChange}
+            value={stdData.email}
           />
         </label>
 
@@ -87,8 +76,8 @@ function InsertData({ navigation }) {
           <input
             type="text"
             name="number"
-            value={formData.number}
             onChange={handleChange}
+            value={stdData.number}
           />
         </label>
 
@@ -97,8 +86,8 @@ function InsertData({ navigation }) {
           <input
             type="text"
             name="nic"
-            value={formData.nic}
             onChange={handleChange}
+            value={stdData.nic}
           />
         </label>
 
@@ -107,14 +96,15 @@ function InsertData({ navigation }) {
           <input
             type="text"
             name="dob"
-            value={formData.dob}
             onChange={handleChange}
+            value={stdData.dob}
           />
         </label>
 
-        <button type="submit">Submit</button>
+        <button type="submit" onClick={handleClick}>
+          Submit
+        </button>
       </form>
     </div>
   );
-}
-export default InsertData;
+};

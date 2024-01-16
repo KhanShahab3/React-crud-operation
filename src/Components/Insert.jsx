@@ -1,6 +1,6 @@
 import React from "react";
 import "../App.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const Insert = () => {
@@ -70,28 +70,21 @@ const Insert = () => {
               <td>{row.number}</td>
               <td>{row.nic}</td>
               <td>{row.dob}</td>
+
               <td>
+                <Link to={`/update/${row.id}`}>
+                  <button>Edit</button>
+                </Link>
                 <button
                   onClick={() => {
-                    navigate("/insert");
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => {
-                    navigate("/delete");
+                    navigate(`/delete/${row.id}`);
                   }}
                 >
                   Delete
                 </button>
-                <button
-                  onClick={() => {
-                    navigate("/insert");
-                  }}
-                >
-                  Insert
-                </button>
+                <Link to="/insert">
+                  <button>Insert</button>
+                </Link>
               </td>
             </tr>
           ))}
